@@ -29,7 +29,7 @@
 
 HTTP 请求中，会携带很多参数，这些参数可以在前端设置，例如表单、Header、文件、Cookie、Session、Token等。
 
-那么，上面的表格正是用来从 HTTP 请求中获取数据的 `“方法”` 或者说 `“手段”`。HttpCentext 等对象不在本文讨论范围。
+那么，上面的表格正是用来从 HTTP 请求中获取数据的 `“方法”` 或者说 `“手段”`。HttpContext 等对象不在本文讨论范围。
 
 `Microsoft.AspNetCore.Mvc` 命名空间提供很多用于配置Web API 控制器的行为和操作方法的属性：
 
