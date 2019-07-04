@@ -1,0 +1,126 @@
+﻿@{
+    ViewData["Title"] = "Web Api测试";
+}
+
+<div class="text-center" id="test1">
+    <button v-on:click='postaaa' class="btn btn-outline-primary">
+        提交aaa
+    </button>
+    <button v-on:click='postbbb' class="btn btn-outline-primary">
+        提交bbb
+    </button>
+    <button v-on:click='postccc' class="btn btn-outline-primary">
+        提交ccc
+    </button>
+    <button v-on:click='postddd' class="btn btn-outline-primary">
+        提交ddd
+    </button>
+    <button v-on:click='posteee' class="btn btn-outline-primary">
+        提交eee
+    </button>
+    <p>
+        {{ message }}
+    </p>
+</div>
+@section Scripts{
+    <script src="~/vue.min.js"></script>
+    <script src="~/axios.min.js"></script>
+    <script>
+        var a = new Vue({
+            el: '#test1',
+            data: {
+                messaged: '请点击按钮请求数据'
+            },
+            methods: {
+                postaaa: function () {
+                    axios.post('/api/default/aaa?a=1234&b=1122')
+                        .then(res => {
+                            this.messaged = res.data;
+                            console.log(res.data)
+                            console.log(res.data.code)
+                            console.log(res.data.result)
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                },
+                postbbb: function () {
+                    axios.post('/api/default/bbb', {
+                        "a": 4444,
+                        "b": 5555
+                    })
+                        .then(res => {
+                            this.messaged = res.data;
+                            console.log(res.data)
+                            console.log(res.data.code)
+                            console.log(res.data.result)
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                },
+                postccc: function () {
+                    let fromData = new FormData()
+                    fromData.append('a', 111)
+                    fromData.append('b', 222)
+                    axios.post('/api/default/ccc', fromData, {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    })
+                        .then(res => {
+                            this.messaged = res.data;
+                            console.log(res.data)
+                            console.log(res.data.code)
+                            console.log(res.data.result)
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                },
+                postddd: function () {
+                    axios.post('/api/default/ddd', {}, {
+                        headers: {
+                            a: 123,
+                            b: 133
+                        }
+                    })
+                        .then(res => {
+                            this.messaged = res.data;
+                            console.log(res.data)
+                            console.log(res.data.code)
+                            console.log(res.data.result)
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                },
+                posteee: function () {
+                    axios.get('/api/default/aaa', {
+                        params: {
+                            a: 1231,
+                            b: 2341
+                        }
+                    }
+                    )
+                        .then(res => {
+                            this.messaged = res.data;
+                            console.log(res.data)
+                            console.log(res.data.code)
+                            console.log(res.data.result)
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                }
+            },
+            computed: {
+                message: function () {
+                    return this.messaged;
+                }
+            }
+
+        });
+
+    </script>
+}
