@@ -25,7 +25,7 @@
 
 来一张 Postman 的图片：
 
-![](.\images\1562138782(1).png)
+![](./images/1562138782(1).png)
 
 HTTP 请求中，会携带很多参数，这些参数可以在前端设置，例如表单、Header、文件、Cookie、Session、Token等。
 
@@ -106,7 +106,7 @@ using Microsoft.OpenApi.Models;
                 .UseStartup<Startup>();
 ```
 
-![1562163847(1)](.\images\1562163847(1).png)
+![1562163847(1)](./images/1562163847(1).png)
 
 不要使用 IIS 托管运行。
 
@@ -129,13 +129,13 @@ using Microsoft.OpenApi.Models;
 ```
 
 打开 https://localhost:5123/swagger/index.html 查看 UI 界面
-![1562138960(1)](.\images\1562138960(1).png)
+![1562138960(1)](./images/1562138960(1).png)
 
 也就是说，创建一个 `action` ，什么都不加，默认是 `query`。
 
 **通过 Postman 提交数据、测试接口**
 
-![1562139085(1)](.\images\1562139085(1).png)
+![1562139085(1)](./images/1562139085(1).png)
 
 **对于 Query 的 action 来说， axios 的写法**
 
@@ -253,7 +253,7 @@ axios.post('/api/default/aaa', {
 
 打开 Swagger UI 界面，刷新一下
 
-![1562139375(1)](.\images\1562139375(1).png)
+![1562139375(1)](./images/1562139375(1).png)
 
 从图片中发现，只有 b，没有 a，而且右上角有下拉框，说明了加 [FromBody] 是 json 上传。
 
@@ -285,13 +285,13 @@ axios.post('/api/default/aaa', {
 
 打开 Swagger 界面（有修改需要刷新下界面，下面不再赘述）。
 
-![1562139627(1)](.\images\1562139627(1).png)
+![1562139627(1)](./images/1562139627(1).png)
 
 这样才是我们要的结果嘛，前端提交的是 Json 对象。
 
 **用 Postman 测试下**
 
-![1562139749(1)](.\images\1562139749(1).png)
+![1562139749(1)](./images/1562139749(1).png)
 
 证实了猜想，嘿嘿，嘿嘿嘿。
 
@@ -344,17 +344,17 @@ axios.post('/api/default/aaa', {
         }
 ```
 
-![1562141896(1)](.\images\1562141896(1).png)
+![1562141896(1)](./images/1562141896(1).png)
 
 根据提示，使用 Postman 进行测试
 
-![0187f3234bb69a6eea144a3a16ee5d8](.\images\0187f3234bb69a6eea144a3a16ee5d8.png)
+![0187f3234bb69a6eea144a3a16ee5d8](./images/0187f3234bb69a6eea144a3a16ee5d8.png)
 
 事实上，这样也行 ↓
 
 form-data 和 x-www.form-urlencoded 都是键值形式，文件 form-data 可以用来上传文件。具体的区别请自行查询。
 
-![df8a45f6c95af394ae2fdbb269f9ae2](.\images\df8a45f6c95af394ae2fdbb269f9ae2.png)
+![df8a45f6c95af394ae2fdbb269f9ae2](./images/df8a45f6c95af394ae2fdbb269f9ae2.png)
 
 axios 写法(把 Content-Type 字段修改成 form-data 或 x-www.form-urlencoded )
 
@@ -395,7 +395,7 @@ axios 写法(把 Content-Type 字段修改成 form-data 或 x-www.form-urlencode
         }
 ```
 
-![1562144122(1)](.\images\1562144122(1).png)
+![1562144122(1)](./images/1562144122(1).png)
 
 axios 写法
 
@@ -447,7 +447,7 @@ params 跟随 url 一起在第一位，json 或表单数据等参数放在第二
         }
 ```
 
-![1562147096](.\images\1562147096.png)
+![1562147096](./images/1562147096.png)
 
 [FromRoute] 是根据路由模板获取的，上面 API 的两个参数和路由模板的名称是对应的：
 
@@ -495,7 +495,7 @@ Query 会查询到 `a = 111`  和 `b = 22`
 
 通过 Postman ，测试
 
-![df8a45f6c95af394ae2fdbb269f9ae2](.\images\df8a45f6c95af394ae2fdbb269f9ae2.png)
+![df8a45f6c95af394ae2fdbb269f9ae2](./images/df8a45f6c95af394ae2fdbb269f9ae2.png)
 
 说明了 [FromRoute] 获取的是代码里的 Controller 和 Action 名称，跟 URL 无关，根据测试结果推断跟路由表规则也无关。
 
@@ -548,7 +548,7 @@ Query 会查询到 `a = 111`  和 `b = 22`
 
 访问时，什么参数都不需要加，直接访问此 API 即可。
 
-![1562148774(1)](.\images\1562148774(1).png)
+![1562148774(1)](./images/1562148774(1).png)
 
 [FromService] 跟后端的代码有关，跟 Controller 、Action 、URL、表单数据等无关。
 
@@ -697,7 +697,7 @@ https://docs.microsoft.com/zh-cn/aspnet/core/mvc/controllers/routing?view=aspnet
         }
 ```
 
-![15622028717670](E:/%E4%B8%B4%E6%97%B6/Webapi/webapi/images/15622028717670.png)
+![15622028717670](./images/15622028717670.png)
 
 使用 Postman 进行，测试，发现必须使用 Json 形式，才能访问到这个 Action ，其它方式会直接 返回 错误。
 
@@ -716,9 +716,9 @@ https://docs.microsoft.com/zh-cn/aspnet/core/mvc/controllers/routing?view=aspnet
 
 **通过两次 Postman 进行测试**
 
-![15622032271015](E:/%E4%B8%B4%E6%97%B6/Webapi/webapi/images/15622032271015.png)
+![15622032271015](./images/15622032271015.png)
 
-![15622037112944](E:/%E4%B8%B4%E6%97%B6/Webapi/webapi/images/15622037112944.png)
+![15622037112944](./images/15622037112944.png)
 
 经过测试，我猜想
 
@@ -745,7 +745,7 @@ Action 的参数：`[Bind("A,B,C")] TestBind test`，刚开始的时候我以为
 
 使用 Swagger 进行测试：
 
-![15622043721294](E:/%E4%B8%B4%E6%97%B6/Webapi/webapi/images/15622043721294.png)返回结果
+![15622043721294](./images/15622043721294.png)返回结果
 
 ```c#
 {
@@ -867,13 +867,13 @@ Action
 
 Swagger 测试
 
-![15622129564070](E:/%E4%B8%B4%E6%97%B6/Webapi/webapi/images/15622129564070.png)
+![15622129564070](./images/15622129564070.png)
 
 Postman 测试
 
-![15622126298494](E:/%E4%B8%B4%E6%97%B6/Webapi/webapi/images/15622126298494.png)
+![15622126298494](./images/15622126298494.png)
 
-![15622126493775](E:/%E4%B8%B4%E6%97%B6/Webapi/webapi/images/15622126493775.png)
+![15622126493775](./images/15622126493775.png)
 
 ```json
 {
