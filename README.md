@@ -71,6 +71,14 @@ Install-Package Swashbuckle.AspNetCore -Version 5.0.0-rc2
 using Microsoft.OpenApi.Models;
 ```
 
+上面是微软文档的安装方法，结果笔者测试。如果使用 `Nuget` 搜索，出现 `Swashbuckle.AspNetCore 4.0.1` 及以上，应当是引用
+
+```
+using Swashbuckle.AspNetCore.Swagger;
+
+```
+
+
 在 `ConfigureServices` 中添加服务，双引号文字内容随便改。
 
 ```c#
@@ -78,6 +86,16 @@ using Microsoft.OpenApi.Models;
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
+```
+
+报错，则使用
+
+```c#
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 ```
 
 添加中间件
@@ -116,7 +134,9 @@ using Microsoft.OpenApi.Models;
 
 ##### 1，默认不加
 
-直接写 `action`，不使用特性
+直接写 `action`，不使用特性，对于简单类型是 Query，对于复杂类型是 Json。  
+这里先说 Query ，对于复杂类型(模型类等)，在后面说明。  
+Query: 
 
 ```c#
         [HttpPost("aaa")]
