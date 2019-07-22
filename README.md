@@ -1,3 +1,5 @@
+[toc]
+
 跟同事合作前后端分离项目，自己对 WebApi 的很多知识不够全，虽说不必要学全栈，可是也要了解基础知识，才能合理设计接口、API，方便与前端交接。
 
 晚上回到宿舍后，对 WebApi 的知识查漏补缺，主要补充了 WebAPi 的一些方法、特性等如何与前端契合，如何利用工具测试 API 、Axios 请求接口。
@@ -10,46 +12,7 @@
 
 由于 Visual Studio 2019 写 ASP.NET Core 页面时，没有 Vue 的智能提示，所以需要使用 VSCode 来写前端页面。
 
-目录 
-一. 微软WebApi
 
-　　1. 安装 Swagger
-
-二. 数据绑定与获取
-
-　　1，默认不加
-
-　　2, [FromBody]
-
-　　3, [FromForm]
-
-　　4, [FromHeader]
-
-　　5, [FromQuery]
-
-　　6, [FromRoute]
-
-　　7, [FromService]
-
-三. action 特性方法
-
-　　1, [Route]
-
-　　2, [Bind]
-
-　　3, [Consumes]、[Produces]
-
-　　4, [HttpGet]、[HttpPost]、[HttpDelete]、[HttpPut]
-
-四，返回类型
-
-　　1, 查询备忘表
-
-　　2, 返回的数据类型
-
-　　3, 直接返回基元或复杂数据类型
-
-　　4, IActionResult 类型
 
 ## 一. 微软WebApi
 
