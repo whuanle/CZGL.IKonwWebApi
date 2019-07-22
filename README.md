@@ -10,7 +10,46 @@
 
 由于 Visual Studio 2019 写 ASP.NET Core 页面时，没有 Vue 的智能提示，所以需要使用 VSCode 来写前端页面。
 
-[TOC]
+目录 
+一. 微软WebApi
+
+　　1. 安装 Swagger
+
+二. 数据绑定与获取
+
+　　1，默认不加
+
+　　2, [FromBody]
+
+　　3, [FromForm]
+
+　　4, [FromHeader]
+
+　　5, [FromQuery]
+
+　　6, [FromRoute]
+
+　　7, [FromService]
+
+三. action 特性方法
+
+　　1, [Route]
+
+　　2, [Bind]
+
+　　3, [Consumes]、[Produces]
+
+　　4, [HttpGet]、[HttpPost]、[HttpDelete]、[HttpPut]
+
+四，返回类型
+
+　　1, 查询备忘表
+
+　　2, 返回的数据类型
+
+　　3, 直接返回基元或复杂数据类型
+
+　　4, IActionResult 类型
 
 ## 一. 微软WebApi
 
