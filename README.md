@@ -27,7 +27,7 @@
 
 来一张 Postman 的图片：
 
-![](https://obs1.whuanle.cn/2019-08/10/1562138782(1).png)
+![](./images/1562138782(1).png)
 
 HTTP 请求中，会携带很多参数，这些参数可以在前端设置，例如表单、Header、文件、Cookie、Session、Token等。
 
@@ -126,7 +126,7 @@ using Swashbuckle.AspNetCore.Swagger;
                 .UseStartup<Startup>();
 ```
 
-![1562163847(1)](https://obs1.whuanle.cn/2019-08/10/1562163847(1).png)
+![1562163847(1)](./images/1562163847(1).png)
 
 不要使用 IIS 托管运行。
 
@@ -169,13 +169,13 @@ Query:
 ```
 
 打开 https://localhost:5123/swagger/index.html 查看 UI 界面
-![1562138960(1)](https://obs1.whuanle.cn/2019-08/10/1562138960(1).png)
+![1562138960(1)](./images/1562138960(1).png)
 
 也就是说，创建一个 `action` ，什么都不加，默认是 `query`。
 
 **通过 Postman 提交数据、测试接口**
 
-![1562139085(1)](https://obs1.whuanle.cn/2019-08/10/1562139085(1).png)
+![1562139085(1)](./images/1562139085(1).png)
 
 **对于 Query 的 action 来说， axios 的写法**
 
@@ -293,7 +293,7 @@ axios.post('/api/default/aaa', {
 
 打开 Swagger UI 界面，刷新一下
 
-![1562139375(1)](https://obs1.whuanle.cn/2019-08/10/1562139375(1).png)
+![1562139375(1)](./images/1562139375(1).png)
 
 从图片中发现，只有 b，没有 a，而且右上角有下拉框，说明了加 [FromBody] 是 json 上传。
 
@@ -302,19 +302,7 @@ axios.post('/api/default/aaa', {
 修改程序如下：
 
 ```c#
-	// 增加一个类型
-    public class AppJson
-    {
-        public int? a { get; set; }
-        public int? b { get; set; }
-    }
-    [HttpPost("bbb")]
-    public async Task<JsonResult> BBB([FromBody]AppJson ss)
-    {
-        if (ss.a == null || ss.b == null) 
-            return new JsonResult(new { code = 0, result = "aaaaaaaa" });
-        return new JsonResult(new { code = 2000, result = ss.a + "|" + ss.b });
-    }
+	// 增加一个类型    public class AppJson    {        public int? a { get; set; }        public int? b { get; set; }    }    [HttpPost("bbb")]    public async Task<JsonResult> BBB([FromBody]AppJson ss)    {        if (ss.a == null || ss.b == null)             return new JsonResult(new { code = 0, result = "aaaaaaaa" });        return new JsonResult(new { code = 2000, result = ss.a + "|" + ss.b });    }
 ```
 
 再看看微软的文档：`[FromBody] 针对复杂类型参数进行推断。`，这下可理解了。。。
@@ -325,13 +313,13 @@ axios.post('/api/default/aaa', {
 
 打开 Swagger 界面（有修改需要刷新下界面，下面不再赘述）。
 
-![1562139627(1)](https://obs1.whuanle.cn/2019-08/10/1562139627(1).png)
+![1562139627(1)](./images/1562139627(1).png)
 
 这样才是我们要的结果嘛，前端提交的是 Json 对象。
 
 **用 Postman 测试下**
 
-![1562139749(1)](https://obs1.whuanle.cn/2019-08/10/1562139749(1).png)
+![1562139749(1)](./images/1562139749(1).png)
 
 证实了猜想，嘿嘿，嘿嘿嘿。
 
@@ -340,22 +328,7 @@ axios.post('/api/default/aaa', {
 前端 axios 写法：
 
 ```javascript
-            methods: {
-                postaaa: function () {
-                    axios.post('/api/default/bbb', {
-                        "a": 4444,
-                        "b": 5555
-                    })
-                        .then(res => {
-                            console.log(res.data)
-                            console.log(res.data.code)
-                            console.log(res.data.result)
-                        })
-                        .catch(err => {
-                            console.error(err);
-                        })
-                }
-            }
+            methods: {                postaaa: function () {                    axios.post('/api/default/bbb', {                        "a": 4444,                        "b": 5555                    })                        .then(res => {                            console.log(res.data)                            console.log(res.data.code)                            console.log(res.data.result)                        })                        .catch(err => {                            console.error(err);                        })                }            }
 ```
 
 
@@ -363,60 +336,31 @@ axios.post('/api/default/aaa', {
 ##### 3, [FromForm]
 
 ```c#
-        [HttpPost("ccc")]
-        public async Task<JsonResult> CCC([FromForm]int? a, [FromForm]int? b)
-        {
-            if (a == null || b == null)
-                return new JsonResult(new { code = 0, result = "aaaaaaaa" });
-            return new JsonResult(new { code = 200, result = a + "|" + b });
-        }
+        [HttpPost("ccc")]        public async Task<JsonResult> CCC([FromForm]int? a, [FromForm]int? b)        {            if (a == null || b == null)                return new JsonResult(new { code = 0, result = "aaaaaaaa" });            return new JsonResult(new { code = 200, result = a + "|" + b });        }
 ```
 
 当然，这样写也行，多个字段或者对象都可以
 
 ```c#
-        [HttpPost("ccc")]
-        public async Task<JsonResult> CCC([FromForm]AppJson ss)
-        {
-            if (ss.a == null || ss.b == null)
-                return new JsonResult(new { code = 0, result = "aaaaaaaa" });
-            return new JsonResult(new { code = 200, result = ss.a + "|" + ss.b });
-        }
+        [HttpPost("ccc")]        public async Task<JsonResult> CCC([FromForm]AppJson ss)        {            if (ss.a == null || ss.b == null)                return new JsonResult(new { code = 0, result = "aaaaaaaa" });            return new JsonResult(new { code = 200, result = ss.a + "|" + ss.b });        }
 ```
 
-![1562141896(1)](https://obs1.whuanle.cn/2019-08/10/1562141896(1).png)
+![1562141896(1)](./images/1562141896(1).png)
 
 根据提示，使用 Postman 进行测试
 
-![0187f3234bb69a6eea144a3a16ee5d8](https://obs1.whuanle.cn/2019-08/10/0187f3234bb69a6eea144a3a16ee5d8.png)
+![0187f3234bb69a6eea144a3a16ee5d8](./images/0187f3234bb69a6eea144a3a16ee5d8.png)
 
 事实上，这样也行 ↓
 
 form-data 和 x-www.form-urlencoded 都是键值形式，文件 form-data 可以用来上传文件。具体的区别请自行查询。
 
-![df8a45f6c95af394ae2fdbb269f9ae2](https://obs1.whuanle.cn/2019-08/10/df8a45f6c95af394ae2fdbb269f9ae2.png)
+![df8a45f6c95af394ae2fdbb269f9ae2](./images/df8a45f6c95af394ae2fdbb269f9ae2.png)
 
 axios 写法(把 Content-Type 字段修改成 form-data 或 x-www.form-urlencoded )
 
 ```c#
- postccc: function () {
-                    let fromData = new FormData()
-                    fromData.append('a', 111)
-                    fromData.append('b', 222)
-                    axios.post('/api/default/ccc', fromData, {
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        }
-                    })
-                        .then(res => {
-                            console.log(res.data)
-                            console.log(res.data.code)
-                            console.log(res.data.result)
-                        })
-                        .catch(err => {
-                            console.error(err);
-                        })
-                }
+ postccc: function () {                    let fromData = new FormData()                    fromData.append('a', 111)                    fromData.append('b', 222)                    axios.post('/api/default/ccc', fromData, {                        headers: {                            'Content-Type': 'application/x-www-form-urlencoded'                        }                    })                        .then(res => {                            console.log(res.data)                            console.log(res.data.code)                            console.log(res.data.result)                        })                        .catch(err => {                            console.error(err);                        })                }
 ```
 
 
@@ -426,36 +370,15 @@ axios 写法(把 Content-Type 字段修改成 form-data 或 x-www.form-urlencode
 [FromHeader] 不以表单形式上传，而是跟随 Header 传递参数。
 
 ```c#
-        [HttpPost("ddd")]
-        public async Task<JsonResult> DDD([FromHeader]int? a, [FromHeader]int? b)
-        {
-            if (a == null || b == null)
-                return new JsonResult(new { code = 0, result = "aaaaaaaa" });
-            return new JsonResult(new { code = 200, result = a + "|" + b });
-        }
+        [HttpPost("ddd")]        public async Task<JsonResult> DDD([FromHeader]int? a, [FromHeader]int? b)        {            if (a == null || b == null)                return new JsonResult(new { code = 0, result = "aaaaaaaa" });            return new JsonResult(new { code = 200, result = a + "|" + b });        }
 ```
 
-![1562144122(1)](https://obs1.whuanle.cn/2019-08/10/1562144122(1).png)
+![1562144122(1)](./images/1562144122(1).png)
 
 axios 写法
 
 ```javascript
-postddd: function () {
-                    axios.post('/api/default/ddd', {}, {
-                        headers: {
-                            a: 123,
-                            b: 133
-                        }
-                    })
-                        .then(res => {
-                            console.log(res.data)
-                            console.log(res.data.code)
-                            console.log(res.data.result)
-                        })
-                        .catch(err => {
-                            console.error(err);
-                        })
-                }
+postddd: function () {                    axios.post('/api/default/ddd', {}, {                        headers: {                            a: 123,                            b: 133                        }                    })                        .then(res => {                            console.log(res.data)                            console.log(res.data.code)                            console.log(res.data.result)                        })                        .catch(err => {                            console.error(err);                        })                }
 ```
 
 需要注意的是，headers 的参数，必须放在第三位。没有要提交的表单数据，第二位就使用 {} 代替。
@@ -477,17 +400,10 @@ params 跟随 url 一起在第一位，json 或表单数据等参数放在第二
 获取路由规则，这个跟前端上传的参数无关；跟 URL 可以说有关，又可以说无关。
 
 ```c#
-        [HttpPost("fff")]
-        public async Task<JsonResult> FFFxxx(int a,int b,
-                                             [FromRoute]string controller,
-                                             [FromRoute]string action)
-        {
-            // 这里就不处理 a和 b了
-            return new JsonResult(new { code = 200, result = controller+"|"+action });
-        }
+        [HttpPost("fff")]        public async Task<JsonResult> FFFxxx(int a,int b,                                             [FromRoute]string controller,                                             [FromRoute]string action)        {            // 这里就不处理 a和 b了            return new JsonResult(new { code = 200, result = controller+"|"+action });        }
 ```
 
-![1562147096](https://obs1.whuanle.cn/2019-08/10/1562147096.png)
+![1562147096](./images/1562147096.png)
 
 [FromRoute] 是根据路由模板获取的，上面 API 的两个参数和路由模板的名称是对应的：
 
@@ -496,12 +412,7 @@ params 跟随 url 一起在第一位，json 或表单数据等参数放在第二
 ```
 
 ```c#
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc(routes =>            {                routes.MapRoute(                    name: "default",                    template: "{controller=Home}/{action=Index}/{id?}");            });
 ```
 
 当然，还可以加个 `[FromRoute]int? id`
@@ -521,21 +432,14 @@ Query 会查询到 `a = 111`  和 `b = 22`
 那么，如果路由规则里，不在 URL 里出现呢？
 
 ```c#
-        [HttpPost("/ooo")]
-        public async Task<JsonResult> FFFooo(int a, int b,
-                                             [FromRoute]string controller,
-                                             [FromRoute]string action)
-        {
-            // 这里就不处理 a和 b了
-            return new JsonResult(new { code = 200, result = controller + "|" + action });
-        }
+        [HttpPost("/ooo")]        public async Task<JsonResult> FFFooo(int a, int b,                                             [FromRoute]string controller,                                             [FromRoute]string action)        {            // 这里就不处理 a和 b了            return new JsonResult(new { code = 200, result = controller + "|" + action });        }
 ```
 
 那么，访问地址变成 `https://localhost:5123/ooo`
 
 通过 Postman ，测试
 
-![df8a45f6c95af394ae2fdbb269f9ae2](https://obs1.whuanle.cn/2019-08/10/df8a45f6c95af394ae2fdbb269f9ae2.png)
+![df8a45f6c95af394ae2fdbb269f9ae2](./images/df8a45f6c95af394ae2fdbb269f9ae2.png)
 
 说明了 [FromRoute] 获取的是代码里的 Controller 和 Action 名称，跟 URL 无关，根据测试结果推断跟路由表规则也无关。
 
@@ -550,14 +454,7 @@ Query 会查询到 `a = 111`  和 `b = 22`
 新建一个接口、一个类
 
 ```c#
-    public interface ITest
-    {
-        string GGG { get; }
-    }
-    public class Test : ITest
-    {
-        public string GGG { get { return DateTime.Now.ToLongDateString(); } }
-    }
+    public interface ITest    {        string GGG { get; }    }    public class Test : ITest    {        public string GGG { get { return DateTime.Now.ToLongDateString(); } }    }
 ```
 
 在 `ConfigureServices` 中 注入
@@ -569,26 +466,18 @@ Query 会查询到 `a = 111`  和 `b = 22`
 在 `DefaultController` 中，创建构造函数，然后
 
 ```c#
-        private readonly ITest ggg;
-        public DefaultController(ITest ttt)
-        {
-            ggg = ttt;
-        }
+        private readonly ITest ggg;        public DefaultController(ITest ttt)        {            ggg = ttt;        }
 ```
 
 添加一个 API
 
 ```c#
-        [HttpPost("ggg")]
-        public async Task<JsonResult> GGG([FromServices]ITest t)
-        {
-            return new JsonResult(new { code = 200, result = t.GGG });
-        }
+        [HttpPost("ggg")]        public async Task<JsonResult> GGG([FromServices]ITest t)        {            return new JsonResult(new { code = 200, result = t.GGG });        }
 ```
 
 访问时，什么参数都不需要加，直接访问此 API 即可。
 
-![1562148774(1)](https://obs1.whuanle.cn/2019-08/10/1562148774(1).png)
+![1562148774(1)](./images/1562148774(1).png)
 
 [FromService] 跟后端的代码有关，跟 Controller 、Action 、URL、表单数据等无关。
 
@@ -634,28 +523,15 @@ https://docs.microsoft.com/zh-cn/aspnet/core/mvc/models/model-binding?view=aspne
 MVC 应用中设置路由的方法有多种，例如
 
 ```c#
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc(routes =>            {                routes.MapRoute(                    name: "default",                    template: "{controller=Home}/{action=Index}/{id?}");            });
 ```
 
 ```c#
- [Route("Home/Index")]
-   public IActionResult Index()
-   {
-      return View();
-   }
+ [Route("Home/Index")]   public IActionResult Index()   {      return View();   }
 ```
 
 ```c#
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DefaultController : ControllerBase
-    {
-    }
+    [Route("api/[controller]")]    [ApiController]    public class DefaultController : ControllerBase    {    }
 ```
 
 路由是全局唯一的，可以通过不同形式使用，但是规则不能发生冲突，程序会在编译时把路由表收集起来。
@@ -687,14 +563,7 @@ https://docs.microsoft.com/zh-cn/aspnet/core/mvc/controllers/routing?view=aspnet
 [BindRequired] 、[BindNever] 只能应用于模型的属性，如
 
 ```c#
-    public class TestB
-    {
-        [BindNever]
-        public int ID { get; set; }
-
-        [BindRequired]
-        public string Name { get; set; }
-    }
+    public class TestB    {        [BindNever]        public int ID { get; set; }        [BindRequired]        public string Name { get; set; }    }
 ```
 
 但是 [BindRequired] 、[BindNever] 不在讨论范围内，这里只说  [Bind]。
@@ -713,52 +582,28 @@ https://docs.microsoft.com/zh-cn/aspnet/core/mvc/controllers/routing?view=aspnet
 新建一个类
 
 ```c#
-    public class TestBind
-    {
-        public string A { get; set; }
-        public string B { get; set; }
-        public string C { get; set; }
-        public string D { get; set; }
-        public string E { get; set; }
-        public string F { get; set; }
-        public string G { get; set; }
-    }
+    public class TestBind    {        public string A { get; set; }        public string B { get; set; }        public string C { get; set; }        public string D { get; set; }        public string E { get; set; }        public string F { get; set; }        public string G { get; set; }    }
 ```
 
 新建 API
 
 ```c#
-        [HttpPost("hhh")]
-        public async Task<JsonResult> HHH([Bind("A,B,C")] TestBind test)
-        {
-            if (ModelState.IsValid == true)
-                return new JsonResult(test);
-            return new JsonResult(new { Code = 0, Result = "验证不通过" });
-        }
+        [HttpPost("hhh")]        public async Task<JsonResult> HHH([Bind("A,B,C")] TestBind test)        {            if (ModelState.IsValid == true)                return new JsonResult(test);            return new JsonResult(new { Code = 0, Result = "验证不通过" });        }
 ```
 
-![15622028717670](https://obs1.whuanle.cn/2019-08/10/15622028717670.png)
+![15622028717670](./images/15622028717670.png)
 
 使用 Postman 进行，测试，发现必须使用 Json 形式，才能访问到这个 Action ，其它方式会直接 返回 错误。
 
 ```json
-{
-    "errors": {
-        "": [
-            "A non-empty request body is required."
-        ]
-    },
-    "title": "One or more validation errors occurred.",
-    "status": 400,
-    "traceId": "0HLO03IFQFTQU:00000007"
-}
+{    "errors": {        "": [            "A non-empty request body is required."        ]    },    "title": "One or more validation errors occurred.",    "status": 400,    "traceId": "0HLO03IFQFTQU:00000007"}
 ```
 
 **通过两次 Postman 进行测试**
 
-![15622032271015](https://obs1.whuanle.cn/2019-08/10/15622032271015.png)
+![15622032271015](./images/15622032271015.png)
 
-![15622037112944](https://obs1.whuanle.cn/2019-08/10/15622037112944.png)
+![15622037112944](./images/15622037112944.png)
 
 经过测试，我猜想
 
@@ -771,66 +616,29 @@ Action 的参数：`[Bind("A,B,C")] TestBind test`，刚开始的时候我以为
 我修改一下：
 
 ```c#
-        [HttpPost("hhh")]
-        public async Task<JsonResult> HHH(
-            string D, string E,[Bind("A,B,C")] TestBind test)
-        {
-            if (ModelState.IsValid == true)
-                return new JsonResult(new { data1 = test, data2 = D, data3 = E });
-            return new JsonResult(new { Code = 0, Result = "验证不通过" });
-        }
+        [HttpPost("hhh")]        public async Task<JsonResult> HHH(            string D, string E,[Bind("A,B,C")] TestBind test)        {            if (ModelState.IsValid == true)                return new JsonResult(new { data1 = test, data2 = D, data3 = E });            return new JsonResult(new { Code = 0, Result = "验证不通过" });        }
 ```
 
 参数变成了 ` string D, string E,[Bind("A,B,C")] TestBind test`
 
 使用 Swagger 进行测试：
 
-![15622043721294](https://obs1.whuanle.cn/2019-08/10/15622043721294.png)返回结果
+![15622043721294](./images/15622043721294.png)返回结果
 
 ```c#
-{
-  "data1": {
-    "a": "string",
-    "b": "string",
-    "c": "string",
-    "d": "string",
-    "e": "string",
-    "f": "string",
-    "g": "string"
-  },
-  "data2": null,
-  "data3": null
-}
+{  "data1": {    "a": "string",    "b": "string",    "c": "string",    "d": "string",    "e": "string",    "f": "string",    "g": "string"  },  "data2": null,  "data3": null}
 ```
 
 改成
 
 ```c#
-        [HttpPost("hhh")]
-        public async Task<JsonResult> HHH([Bind("A,B,C")] TestBind test, string J, string Q)
-        {
-            if (ModelState.IsValid == true)
-                return new JsonResult(new { data1 = test, data2 = J, data3 = Q });
-            return new JsonResult(new { Code = 0, Result = "验证不通过" });
-        }
+        [HttpPost("hhh")]        public async Task<JsonResult> HHH([Bind("A,B,C")] TestBind test, string J, string Q)        {            if (ModelState.IsValid == true)                return new JsonResult(new { data1 = test, data2 = J, data3 = Q });            return new JsonResult(new { Code = 0, Result = "验证不通过" });        }
 ```
 
 返回结果
 
 ```c#
-{
-  "data1": {
-    "a": "string",
-    "b": "string",
-    "c": "string",
-    "d": "string",
-    "e": "string",
-    "f": "string",
-    "g": "string"
-  },
-  "data2": null,
-  "data3": null
-}
+{  "data1": {    "a": "string",    "b": "string",    "c": "string",    "d": "string",    "e": "string",    "f": "string",    "g": "string"  },  "data2": null,  "data3": null}
 ```
 
 文档中对 [Bind] 描述最多的是：防止过多发布。
@@ -864,78 +672,27 @@ Action 的参数：`[Bind("A,B,C")] TestBind test`，刚开始的时候我以为
 模型类
 
 ```c#
-    public class TestBind
-    {
-        public string A { get; set; }
-        public string B { get; set; }
-        public string C { get; set; }
-        public string D { get; set; }
-        public string E { get; set; }
-        public string F { get; set; }
-        public string G { get; set; }
-    }
+    public class TestBind    {        public string A { get; set; }        public string B { get; set; }        public string C { get; set; }        public string D { get; set; }        public string E { get; set; }        public string F { get; set; }        public string G { get; set; }    }
 ```
 
 Action 
 
 ```c#
-        [HttpPost("hhh")]
-        public async Task<JsonResult> HHH(
-            string A, string B,
-            string E, string F, string G,
-            [Bind("A,B,C,D")] TestBind test,
-             string C, string D,
-             string J, string Q)
-        {
-            if (ModelState.IsValid == true)
-                return new JsonResult(new
-                {
-                    data1 = test,
-                    dataA = A,
-                    dataB = B,
-                    dataC = C,
-                    dataD = D,
-                    dataE = E,
-                    dataF = F,
-                    dataG = G,
-                    dataJ = J,
-                    dataQ = Q
-                });
-            return new JsonResult(new { Code = 0, Result = "验证不通过" });
-        }
+        [HttpPost("hhh")]        public async Task<JsonResult> HHH(            string A, string B,            string E, string F, string G,            [Bind("A,B,C,D")] TestBind test,             string C, string D,             string J, string Q)        {            if (ModelState.IsValid == true)                return new JsonResult(new                {                    data1 = test,                    dataA = A,                    dataB = B,                    dataC = C,                    dataD = D,                    dataE = E,                    dataF = F,                    dataG = G,                    dataJ = J,                    dataQ = Q                });            return new JsonResult(new { Code = 0, Result = "验证不通过" });        }
 ```
 
 Swagger 测试
 
-![15622129564070](https://obs1.whuanle.cn/2019-08/10/15622129564070.png)
+![15622129564070](./images/15622129564070.png)
 
 Postman 测试
 
-![15622126298494](https://obs1.whuanle.cn/2019-08/10/15622126298494.png)
+![15622126298494](./images/15622126298494.png)
 
-![15622126493775](https://obs1.whuanle.cn/2019-08/10/15622126493775.png)
+![15622126493775](./images/15622126493775.png)
 
 ```json
-{
-    "data1": {
-        "a": "111",
-        "b": "111",
-        "c": "111",
-        "d": "111",
-        "e": "111",
-        "f": "111",
-        "g": "111"
-    },
-    "dataA": "222",
-    "dataB": "222",
-    "dataC": "222",
-    "dataD": "222",
-    "dataE": "222",
-    "dataF": "222",
-    "dataG": "222",
-    "dataJ": "222",
-    "dataQ": "222"
-}
+{    "data1": {        "a": "111",        "b": "111",        "c": "111",        "d": "111",        "e": "111",        "f": "111",        "g": "111"    },    "dataA": "222",    "dataB": "222",    "dataC": "222",    "dataD": "222",    "dataE": "222",    "dataF": "222",    "dataG": "222",    "dataJ": "222",    "dataQ": "222"}
 ```
 
 再在 Swagger 或 Postman ，换着法子尝试各种不同组合的输入。
@@ -946,12 +703,10 @@ Postman 测试
 
 ```c#
 [Bind("A,B,C")]
-
 ```
 
 ```c#
 [Bind("A,B,C,D,E,F,G")]
-
 ```
 
 这两者的区别是是什么。还是没搞清楚。算了，不踩了。
@@ -963,12 +718,7 @@ Postman 测试
 获得一个回答：
 
 ```
-What's the difference between [Bind("A,B,C")] and [Bind("A,B,C,D,E,F,G")]?
-
-The former tells the model binder to include only the properties of TestBind named A, B and C. The latter tells the model binder to include those same properties plus D, E, F and G.
-
-Are you testing by posting data for all properties of your model? You should notice that the values you post for the excluded properties are not bound.
-
+What's the difference between [Bind("A,B,C")] and [Bind("A,B,C,D,E,F,G")]?The former tells the model binder to include only the properties of TestBind named A, B and C. The latter tells the model binder to include those same properties plus D, E, F and G.Are you testing by posting data for all properties of your model? You should notice that the values you post for the excluded properties are not bound.
 ```
 
 算了，嘿嘿，测试不出来，放弃。
@@ -978,23 +728,13 @@ Are you testing by posting data for all properties of your model? You should not
 ##### 3, [Consumes]、[Produces]
 
 ```c#
-        [Consumes("application/json")]
-        [Produces("application/json")]
-        [Produces("application/xml")] 
-        [Produces("text/html")]
-		... ...
+        [Consumes("application/json")]        [Produces("application/json")]        [Produces("application/xml")]         [Produces("text/html")]		... ...
 ```
 
 目前只了解到 [Consumes]、[Produces] 是筛选器，用来表示 Controller 或 Action 所能接受的数据类型。大概就是像下面这样使用：
 
 ```
-    [Consumes("application/json")]
-    [Produces("application/json")]
-    public class DefaultTestController : ControllerBase
-    {
-
-    }
-
+    [Consumes("application/json")]    [Produces("application/json")]    public class DefaultTestController : ControllerBase    {    }
 ```
 
 但是如何实际应用呢？我找了很久，都没有找到什么结果。在 stackoverflow 找到一个回答：
@@ -1010,19 +750,7 @@ https://stackoverflow.com/questions/41462509/adding-the-produces-filter-globally
 例如：
 
 ```c#
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DefaultController : ControllerBase
-    {
-        [HttpPost("aaa")]
-        public async Task<JsonResult> AAA(int? a, int? b)
-        {
-            if (a == null | b == null)
-                return new JsonResult(new { code = 0, result = "aaaaaaaa" });
-            return new JsonResult(new { code = 200, result = a + "|" + b });
-        }
-    }
-
+    [Route("api/[controller]")]    [ApiController]    public class DefaultController : ControllerBase    {        [HttpPost("aaa")]        public async Task<JsonResult> AAA(int? a, int? b)        {            if (a == null | b == null)                return new JsonResult(new { code = 0, result = "aaaaaaaa" });            return new JsonResult(new { code = 200, result = a + "|" + b });        }    }
 ```
 
 访问地址 https://localhost:5123/api/Default/aaa
@@ -1033,14 +761,12 @@ https://stackoverflow.com/questions/41462509/adding-the-produces-filter-globally
 
 ```c#
 [HttpPost("aaa")]    //相对路径
-
 ```
 
 访问地址 `xxx:xxx/api/Default/aaa`
 
 ```c#
 [HttpPost("/aaa")]   //绝对路径
-
 ```
 
 访问地址 `xxx:xxx/aaa`
@@ -1125,12 +851,7 @@ Action 的 return ，返回的数据类型必定是上面三种。
 ##### 3, 直接返回基元或复杂数据类型
 
 ```c#
-[HttpGet]
-public IEnumerable<Product> Get()
-{
-    return _repository.GetProducts();
-}
-
+[HttpGet]public IEnumerable<Product> Get(){    return _repository.GetProducts();}
 ```
 
 ##### 4, IActionResult 类型
@@ -1145,7 +866,6 @@ MVC 的 Controller 继承 Controller而 Controller 继承
 
 ```c#
 Controller :   ControllerBase, IActionFilter, IFilterMetadata, IAsyncActionFilter, IDisposable
-
 ```
 
 API 里的 Controller 是最原始的。
@@ -1157,32 +877,13 @@ API 里的 返回类型需要实例化， new 一下； MVC 里的返回类型�
 API:
 
 ```c#
-        [HttpGet("returnaaa")]
-        public async Task<IActionResult> ReturnAAA()
-        {
-            return new ViewResult();  
-            return new JsonResult(new { code="test"});
-            return new RedirectToActionResult("DefaultController","ReturnAAA","");
-            return new NoContentResult("666");
-            return new NotFoundResult();
-            ...
-        }
-
+        [HttpGet("returnaaa")]        public async Task<IActionResult> ReturnAAA()        {            return new ViewResult();              return new JsonResult(new { code="test"});            return new RedirectToActionResult("DefaultController","ReturnAAA","");            return new NoContentResult("666");            return new NotFoundResult();            ...        }
 ```
 
 MVC 
 
 ```c#
-        public async Task<IActionResult> Test()
-        {
-            return View();
-            return Json(new { code = "test" });
-            return RedirectToAction("DefaultController", "ReturnAAA", "");
-            return NoContent("666");
-            return NotFound();
-            ...
-        }
-
+        public async Task<IActionResult> Test()        {            return View();            return Json(new { code = "test" });            return RedirectToAction("DefaultController", "ReturnAAA", "");            return NoContent("666");            return NotFound();            ...        }
 ```
 
 MVC 中，Action 默认是 [HttpGet]，不加也可以被访问到；
